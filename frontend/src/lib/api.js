@@ -1,13 +1,11 @@
-// All data calls live here. The frontend never talks to Supabase or WorldTime
-// directly — every request goes to our own backend, which is:
-//   • /api/* serverless functions on Vercel in production
-//   • the same handlers, mounted by dev-api.js, in local development
-//
-// Frontend uses relative URLs so it works in both environments with zero
-// configuration.
+// all the frontend api calls are in this file
+// the frontend calls my own api routes instead of calling supabase or worldtime directly
+// this helps keep the backend logic in one place
 
-const API_BASE = ''; // relative — Vite proxies /api → :4000 in dev
+const API_BASE = '';
 
+// helper async function to call the api routes and handles errors like if the database is down or worltime isnt working, it returns
+// status and error messages
 async function request(path, options = {}) {
   try {
     const res = await fetch(`${API_BASE}${path}`, {
@@ -41,13 +39,7 @@ const safeJson = (text) => {
   }
 };
 
-/* -------------------------------------------------------------------------- */
-/*  Attendance                                                                */
-/* -------------------------------------------------------------------------- */
-
-/**
- * POST /api/attendance — insert one check-in or check-out row.
- */
+//post request to /api/attendance with name, action and verifiedAt to record attendance and send to database
 export async function recordAttendance({ name, action, verifiedAt }) {
   const result = await request('/api/attendance', {
     method: 'POST',
@@ -56,9 +48,7 @@ export async function recordAttendance({ name, action, verifiedAt }) {
   return result;
 }
 
-/**
- * GET /api/attendance — list recent rows for the dashboard.
- */
+// for the dashboard, we fetch the attendance records from the database 
 export async function fetchAttendance({ limit = 200 } = {}) {
   const result = await request(`/api/attendance?limit=${limit}`);
   return {
@@ -68,16 +58,10 @@ export async function fetchAttendance({ limit = 200 } = {}) {
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Verified time                                                             */
-/* -------------------------------------------------------------------------- */
-
-/**
- * GET /api/time — backend proxies WorldTime API and returns { datetime, source }.
- */
+// function to get the current time from the time api route and if it fails, it'll just return the local time
 export async function fetchVerifiedNow() {
   const result = await request('/api/time');
-  if (!result.ok || !result.data?.datetime) {
+  if (!result.ok || !result.data?.datetime) { // if the api call fails, go to local time
     return { date: new Date(), source: 'local' };
   }
   return {
