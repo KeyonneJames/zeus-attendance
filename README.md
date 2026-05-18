@@ -66,3 +66,6 @@ Zeus Attendance Tracker is designed to function across modern desktop and mobile
 
 **Recommended Browsers:**  
 For the best performance and compatibility, **Google Chrome** or **Microsoft Edge** is recommended.
+
+## Developer Manual
+[Click here to view the Developer Manual](#developer-manual)
