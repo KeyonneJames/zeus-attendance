@@ -80,7 +80,7 @@ This documentation is intended for future developers who may maintain or expand 
 git clone [YOUR GITHUB REPOSITORY LINK]
 cd zeus-attendance-tracker
 
-###
+---
 
 ## Installing Dependencies
 npm install
