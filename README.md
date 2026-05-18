@@ -73,67 +73,101 @@ For the best performance and compatibility, **Google Chrome** or **Microsoft Edg
 This documentation is intended for future developers who may maintain or expand **Zeus Attendance Tracker**. It assumes familiarity with JavaScript, React, Node.js, REST APIs, and database concepts, but no prior knowledge of this specific application.
 
 ---
-## Installation & Setup
-### Clone the Repository
 
+## Installation & Setup
+
+### Clone the Repository
 ```bash
 git clone [YOUR GITHUB REPOSITORY LINK]
 cd zeus-attendance-tracker
+```
 
----
-
-## Installing Dependencies
+### Install Dependencies
+```bash
 npm install
+```
 
-## Required Environment Variables
+### Required Environment Variables
+Create a `.env` file in the project root and add:
 
+```env
 SUPABASE_URL=your_supabase_project_url
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 DEV_API_PORT=4000
+```
 
+---
 
-##Running the Application
+## Running the Application
 
+### Start the Frontend
+```bash
 npm run dev
+```
 
-Frontend runs at: http://localhost:5173
+Frontend runs at:  
+`http://localhost:5173`
 
-Start the Backend:
-
+### Start the Backend
+```bash
 node dev-api.js
+```
 
-Backend runs at: http://localhost:4000
+Backend runs at:  
+`http://localhost:4000`
 
+---
 
-##Testing
-
+## Testing
 Manual testing should verify:
 
-- Successful Check In functionality
-- Successful Check Out functionality
+- Successful **Check In** functionality
+- Successful **Check Out** functionality
 - Dashboard attendance records loading correctly
 - Search filtering on the dashboard
 - Verified clock synchronization
 - API fallback behavior if external time services fail
 - Error handling for invalid or empty name submissions
 
-API Endpoints
-GET /api/time
+---
 
+## API Endpoints
+
+### GET `/api/time`
 Returns the current verified timestamp.
 
-Purpose:
+**Purpose:**
+- Retrieves trusted time from the **WorldTime API**
+- Falls back to **TimeAPI.io** if unavailable
+- Falls back to **server local time** if both services fail
 
-Retrieves trusted time from the WorldTime API
-Falls back to TimeAPI.io if unavailable
-Falls back to server local time if both services fail
-GET /api/attendance
-
+### GET `/api/attendance`
 Retrieves attendance records from Supabase.
 
+Example:
+```bash
+GET /api/attendance?limit=50
+```
 
-##Future Development Roadmap
+### POST `/api/attendance`
+Creates a new attendance record.
 
+Example request body:
+```json
+{
+  "name": "John Smith",
+  "action": "check_in",
+  "verifiedAt": "2026-05-17T14:20:00.000Z"
+}
+```
+
+Accepted values:
+- `check_in`
+- `check_out`
+
+---
+
+## Future Development Roadmap
 Planned improvements include:
 
 - User authentication
@@ -142,8 +176,9 @@ Planned improvements include:
 - Attendance editing and deletion
 - Date filtering for records
 
-##Known Bugs / Limitations
+---
 
+## Known Bugs / Limitations
 Current limitations include:
 
 - No authentication system implemented yet
@@ -151,10 +186,10 @@ Current limitations include:
 - Users can submit attendance under any entered name
 - No attendance editing or deletion functionality
 
+---
 
 ## Deployment
-
-Zeus Attendance Tracker is deployed using Vercel.
+Zeus Attendance Tracker is deployed using **Vercel**.
 
 Deployment requirements:
 
