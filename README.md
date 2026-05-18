@@ -1,7 +1,5 @@
 # Zeus Attendance Tracker
 
-P## Project Description
-
 **Zeus Attendance Tracker** is a dynamic web-based attendance management application designed to replace inefficient manual sign-in systems commonly used in workplaces, daycare centers, classrooms, events, and other organizations.
 
 Traditional attendance methods such as paper sign-in sheets are often:
